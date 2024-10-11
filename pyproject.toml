@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cli_tool"
+version = "0.1.0"
+dependencies = ["Click", "psutil"]
+
+[project.scripts]
+sil = "cli_tool:cli"

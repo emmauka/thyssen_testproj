@@ -1,0 +1,8 @@
+pyproject.toml
+setup.py
+yourscript.egg-info/PKG-INFO
+yourscript.egg-info/SOURCES.txt
+yourscript.egg-info/dependency_links.txt
+yourscript.egg-info/entry_points.txt
+yourscript.egg-info/requires.txt
+yourscript.egg-info/top_level.txt

@@ -1,0 +1,2 @@
+[console_scripts]
+sil = yourscript:cli

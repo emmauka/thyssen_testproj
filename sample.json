@@ -1,0 +1,9 @@
+{
+  "Name": "Thyssen Project",
+  "Version": 1.0,
+  "Manufactured": 2025,
+  "Made": "Germany",
+  "City": "Essen",
+  "Description": "A command-line tool for system monitoring and JSON handling.",
+  "Author": "Tony Emmanuel Okereke"
+}
