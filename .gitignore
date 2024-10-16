@@ -10,6 +10,12 @@ __pycache__/   # Python cache
 # Virtual environment
 .venv/         # Virtual environment directory
 
+# Sensitive Python scripts (add these as per your case)
+cli_tool.py    # Your main CLI tool file
+default.json   # Any other config or data files you want to hide
+data.json      # Another example file
+sample.json    # Sensitive sample data file
+
 # Premium features (only in private repo)
 premium_features/
 advanced_monitoring/
