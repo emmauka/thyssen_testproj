@@ -1,0 +1,23 @@
+# Sensitive configuration files
+profiles.json  # Hide profiles with permissions
+.env           # If you use a .env file for environment variables
+config.json    # Any other sensitive config file
+
+# Python-related files
+*.pyc          # Python bytecode
+__pycache__/   # Python cache
+
+# Virtual environment
+.venv/         # Virtual environment directory
+
+# Premium features (only in private repo)
+premium_features/
+advanced_monitoring/
+
+# OS generated files (optional)
+.DS_Store      # macOS
+Thumbs.db      # Windows
+
+# Ignore generated libraries and scripts
+lib/
+scripts/

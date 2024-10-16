@@ -1,9 +1,16 @@
 import click
-import psutil
-import os
-from tabulate import tabulate
 import time
+import psutil
+from tabulate import tabulate
+from monitors.cpu_monitor import get_cpu_usage  # Import CPU monitor function
+from monitors.memory_monitor import get_memory_usage  # Import Memory monitor function
+from monitors.network_monitor import get_network_io  # Import Network monitor function
+from monitors.system_monitor import get_system_usage  # Import System monitor function
+import sys
+import os
 
+# Add the project root to the system path so Python can find the monitors module
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Core CLI Commands
 @click.group(invoke_without_command=True)
@@ -21,22 +28,16 @@ def cli(ctx, hello):
 def cpu(watch):
     """Display CPU usage and system load."""
     while True:
-        cpu_usage = psutil.cpu_percent(interval=1)
-        try:
-            cpu_load = psutil.getloadavg()
-        except AttributeError:
-            cpu_load = "N/A on windows"
-
+        cpu_usage = get_cpu_usage()  # Using the modularized function
         table = [["Metric", "Value"],
-                 ["CPU Usage (%)", cpu_usage],
-                 ["CPU Load (1, 5, 15 min)", cpu_load]]
+                 ["CPU Usage (%)", cpu_usage]]
 
+        click.clear()
         click.echo(tabulate(table, headers="firstrow", tablefmt="grid"))
 
         if not watch:
             break
         time.sleep(1)
-        click.clear()
 
 # Memory Command with Watch Option
 @click.command()
@@ -44,11 +45,8 @@ def cpu(watch):
 def memory(watch):
     """Show memory usage, total memory, and available memory."""
     while True:
-        mem = psutil.virtual_memory()
-        table = [["Metric", "Value"],
-                 ["Total Memory (GB)", f"{mem.total / (1024 ** 3):.2f}"],
-                 ["Available Memory (GB)", f"{mem.available / (1024 ** 3):.2f}"],
-                 ["Memory Usage (%)", f"{mem.percent}"]]
+        memory_stats = get_memory_usage()  # Using the modularized function
+        table = [["Metric", "Value"]] + [[k, v] for k, v in memory_stats.items()]
 
         click.clear()
         click.echo(tabulate(table, headers="firstrow", tablefmt="grid"))
@@ -63,10 +61,8 @@ def memory(watch):
 def network_monitor(watch):
     """Monitor network bandwidth usage in real time."""
     while True:
-        net_io = psutil.net_io_counters()
-        table = [["Metric", "Value"],
-                 ["Bytes Sent (MB)", f"{net_io.bytes_sent / (1024 ** 2):.2f}"],
-                 ["Bytes Received (MB)", f"{net_io.bytes_recv / (1024 ** 2):.2f}"]]
+        net_io = get_network_io()  # Using the modularized function
+        table = [["Metric", "Value"]] + [[k, v] for k, v in net_io.items()]
 
         click.echo(tabulate(table, headers="firstrow", tablefmt="grid"))
 
@@ -80,22 +76,17 @@ def network_monitor(watch):
 def system_monitor(watch):
     """Monitor CPU, Memory, and Disk usage in real time."""
     while True:
-        cpu_usage = psutil.cpu_percent(interval=1)  # Measures the span
-        mem = psutil.virtual_memory()
-        disk = psutil.disk_usage('/')
+        system_stats = get_system_usage()  # Using the modularized function
+        table = [["Metric", "Value"]] + [[k, v] for k, v in system_stats.items()]
 
-        table = [["Metric", "Value"],
-                 ["CPU Usage (%)", cpu_usage],
-                 ["Memory Usage (%)", mem.percent],
-                 ["Disk Usage (%)", disk.percent]]
         click.clear()
         click.echo(tabulate(table, headers="firstrow", tablefmt="grid"))
 
-        if not watch:  # If not watch mean if -w flag is not provided, then it will show just once and break and not run continously as in real time
+        if not watch:
             break
         time.sleep(1)
 
-# Disk Command
+# Disk Command (no changes needed here)
 @click.command()
 def disk():
     """Show disk usage, total space, and free space."""
