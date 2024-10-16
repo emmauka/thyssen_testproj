@@ -16,6 +16,11 @@ default.json   # Any other config or data files you want to hide
 data.json      # Another example file
 sample.json    # Sensitive sample data file
 
+# Log and data files
+cli_tool.log   # Logs for CLI tool
+monitoring_data.db  # Database file
+monitoring_data.csv # CSV data file
+
 # Premium features (only in private repo)
 premium_features/
 advanced_monitoring/
@@ -27,3 +32,7 @@ Thumbs.db      # Windows
 # Ignore generated libraries and scripts
 lib/
 scripts/
+
+# Templates and test files (if not needed)
+templates/
+test_email.py
